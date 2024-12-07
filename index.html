@@ -1,240 +1,332 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Carousel Fullscreen com Bootstrap</title>
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    />
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosso Bioma - Focos Futuros</title>
     <style>
-      .carousel-item {
-        height: 100vh;
-        background-size: cover;
-        background-position: center;
-      }
-      .navbar-custom {
-        /*background-color: transparent !important; */
-        background: rgba(0, 0, 0, 0.6); /* Filtro escuro */
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 10;
-      }
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-      /* Estilo para links da navbar */
-      .navbar-nav .nav-link {
-        font-size: 0.9rem; /* Tamanho menor para os links */
-        margin-right: 10px; /* Espaço entre os itens */
-        color: white !important;
-        transition: color 0.3s ease;
-      }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            height: 100vh;
+        }
 
-      .navbar-nav .nav-link:hover {
-        color: #ffd700 !important; /* Destaque dourado ao passar o mouse */
-      }
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: lightsalmon;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
 
-      /* Alterar o texto da marca à esquerda */
-      .navbar-brand {
-        font-size: 1.3rem;
-        font-weight: bold;
-        color: white !important;
-      }
+        .navbar h1 {
+            font-size: 20px;
+        }
 
-      /* Fundo ao rolar a página */
-      .navbar-scrolled {
-        background-color: rgba(0, 0, 0, 0.8) !important;
-        transition: background-color 0.3s ease;
-      }
+        .navbar .right-section {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
 
-      /* BOTAO DO CARROSSEL */
-      .carousel-caption {
-      position: absolute;
-      bottom: 20%;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      z-index: 10;
-      color: white;
-    }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
 
-    .carousel-title {
-      font-size: 50px;
-      font-weight: bold;
-      margin-bottom: 10px;
-      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-    }
+        /* Título principal */
+        .main-title {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 28px;
+            color: #333;
+        }
 
-    .carousel-btn {
-      padding: 10px 20px;
-      font-size: 32px;
-      background: rgba(0, 0, 0, 0.6); /* Filtro escuro */
-      color: white;
-      border: 0px solid #ccc;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: 0.3s ease;
-      
-    }
+        /* Seção principal */
+        .main-section {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 40px 20px;
+        }
 
-    .carousel-btn:hover {
-      background-color: #f0f0f0;
-      color: #000;
-      border-color: #999;
-    }
+        .map-section {
+            flex: 2;
+            margin-right: 20px;
+        }
+
+        .map-section img {
+            width: 100%;
+            height: auto;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .analysis-section {
+            flex: 1;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            flex-direction: column;
+        }
+
+        .analysis-section p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .main-section {
+                flex-direction: column;
+            }
+
+            .map-section {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+        }
+
+        #map { 
+            height: 100%; 
+            width: 100%;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+        
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        table th {
+            background-color: lightsalmon;
+            color: white;
+            font-weight: bold;
+        }
+        
+        table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        table tbody tr:hover {
+            background-color: #ddd;
+        }
     </style>
-  </head>
-  <body>
-    <!-- NavBar -->
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Nosso Bioma</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div
-          class="collapse navbar-collapse justify-content-end"
-          id="navbarNav"
-        >
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="amazonia.html">Amazônia</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="cerrado.html">Cerrado</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="caatinga.html">Caatinga</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="pantanal.html">Pantanal</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="pampa.html">Pampa</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="mataatlantica.html">Mata Atlântica</a>
-            </li>
-          </ul>
-        </div>
-      </div>
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <h1>Sistema inteligente de predição de focos de incêndio</h1>
     </nav>
 
-    <!-- Carousel -->
-    <div
-    id="fullscreenCarousel"
-    class="carousel slide vh-100"
-    data-ride="carousel"
-    >
-    <div class="carousel-inner vh-100">
-      <div class="carousel-item active">
-        <img src="imgs/amazonia_picodaneblina.jpg" class="d-block w-100 h-100" alt="Imagem 1" />
-        <div class="carousel-caption">
-          <h3 class="carousel-title">Amazônia</h3>
-          <button class="carousel-btn"onclick="window.location.href='amazonia.html'">Verificar</button>
+    <!-- Seção principal -->
+    <div class="main-section" style="height: 100%;">
+        <!-- Mapa -->   
+        <div class="map-section">
+            <div id="map"></div>
         </div>
-      </div>
-      <div class="carousel-item">
-        <img
-          src="imgs/caatinga.jpg"
-          class="d-block w-100 h-100"
-          alt="Imagem 2"
-        />
-        <div class="carousel-caption">
-          <h3 class="carousel-title">Caatinga</h3>
-          <button class="carousel-btn" onclick="window.location.href='caatinga.html'">Verificar</button>
+
+        <!-- Texto de análise -->
+        <div class="analysis-section flex">
+            <h2>Sobre os focos de incêndio</h2>
+            <p>
+                Baseado nos dados mais recentes, identificamos regiões críticas com maior probabilidade de novas queimadas. 
+                O bioma Amazônia e o Cerrado lideram em áreas vulneráveis devido à seca prolongada e uso do solo. 
+                Este mapa reflete os pontos-chave para intervenções futuras e conservação ambiental.
+            </p>
         </div>
-      </div>
-      <div class="carousel-item">
-        <img
-          src="imgs/cerrado.jpg"
-          class="d-block w-100 h-100"
-          alt="Imagem 3"
-        />
-        <div class="carousel-caption">
-          <h3 class="carousel-title">Cerrado</h3>
-          <button class="carousel-btn" onclick="window.location.href='cerrado.html'">Verificar</button>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <img
-          src="imgs/mataatlantica.jpg"
-          class="d-block w-100 h-100"
-          alt="Imagem 3"
-        />
-        <div class="carousel-caption">
-          <h3 class="carousel-title">Mata Atlântica</h3>
-          <button class="carousel-btn" onclick="window.location.href='mataatlantica.html'">Verificar</button>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <img
-          src="imgs/pantanal.jpg"
-          class="d-block w-100 h-100"
-          alt="Imagem 3"
-        />
-        <div class="carousel-caption">
-          <h3 class="carousel-title">Pantanal</h3>
-          <button class="carousel-btn" onclick="window.location.href='pantanal.html'">Verificar</button>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <img
-          src="imgs/pampa.jpg"
-          class="d-block w-100 h-100"
-          alt="Imagem 3"
-        />
-        <div class="carousel-caption">
-          <h3 class="carousel-title">Pampa</h3>
-          <button class="carousel-btn" onclick="window.location.href='pampa.html'">Verificar</button>
-        </div>
-      </div>
+
+        <table border="1" style="border-collapse: collapse; width: 100%;">
+            <thead>
+              <tr>
+                <th>Localidade</th>
+                <th>Bioma</th>
+                <th>Latitude Média</th>
+                <th>Longitude Média</th>
+                <th>Probabilidade Média de Incêndio (%)</th>
+                <th>Ocorrências</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>São Félix do Xingu (PA)</td>
+                <td>Amazônia</td>
+                <td>-7.10</td>
+                <td>-52.32</td>
+                <td>95.3</td>
+                <td>7.350</td>
+              </tr>
+              <tr>
+                <td>Altamira (PA)</td>
+                <td>Amazônia</td>
+                <td>-7.38</td>
+                <td>-54.47</td>
+                <td>94.0</td>
+                <td>5.972</td>
+              </tr>
+              <tr>
+                <td>Corumbá (MS)</td>
+                <td>Pantanal</td>
+                <td>-19.13</td>
+                <td>-57.36</td>
+                <td>88.6</td>
+                <td>5.304</td>
+              </tr>
+              <tr>
+                <td>Novo Progresso (PA)</td>
+                <td>Amazônia</td>
+                <td>-7.68</td>
+                <td>-55.40</td>
+                <td>95.8</td>
+                <td>4.785</td>
+              </tr>
+              <tr>
+                <td>Apuí (AM)</td>
+                <td>Amazônia</td>
+                <td>-7.01</td>
+                <td>-59.59</td>
+                <td>80.5</td>
+                <td>4.663</td>
+              </tr>
+              <tr>
+                <td>Lábrea (AM)</td>
+                <td>Amazônia</td>
+                <td>-8.95</td>
+                <td>-66.12</td>
+                <td>85.3</td>
+                <td>4.275</td>
+              </tr>
+              <tr>
+                <td>Itaituba (PA)</td>
+                <td>Amazônia</td>
+                <td>-6.21</td>
+                <td>-56.11</td>
+                <td>78.1</td>
+                <td>3.318</td>
+              </tr>
+              <tr>
+                <td>Porto Velho (RO)</td>
+                <td>Amazônia</td>
+                <td>-9.03</td>
+                <td>-63.89</td>
+                <td>83.3</td>
+                <td>3.171</td>
+              </tr>
+              <tr>
+                <td>Colniza (MT)</td>
+                <td>Amazônia</td>
+                <td>-9.21</td>
+                <td>-60.34</td>
+                <td>85.4</td>
+                <td>2.683</td>
+              </tr>
+              <tr>
+                <td>Novo Aripuanã (AM)</td>
+                <td>Amazônia</td>
+                <td>-6.92</td>
+                <td>-60.58</td>
+                <td>80.9</td>
+                <td>2.582</td>
+              </tr>
+            </tbody>
+          </table>
     </div>
-    <a
-      class="carousel-control-prev"
-      href="#fullscreenCarousel"
-      role="button"
-      data-slide="prev"
-    >
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="sr-only">Anterior</span>
-    </a>
-    <a
-      class="carousel-control-next"
-      href="#fullscreenCarousel"
-      role="button"
-      data-slide="next"
-    >
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="sr-only">Próximo</span>
-    </a>
-    </div>
+
+    <script>
+        var map = L.map('map').setView([-14.235004, -51.92528], 4);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+            maxZoom: 18
+        }).addTo(map);
 
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-      <script>
-    // Alterar a navbar ao rolar a página
-    const navbar = document.querySelector('.navbar-custom');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        navbar.classList.add('navbar-scrolled');
-      } else {
-        navbar.classList.remove('navbar-scrolled');
-      }
-    });
-      </script>
+        const marcadores = [
+    { coords: [-18.86505, -43.76040] },
+    { coords: [-17.12411, -46.10660] },
+    { coords: [-21.33976, -44.27058], },
+    { coords: [-21.33670, -44.27570] },
+    { coords: [-18.06937, -44.54203] },
+    { coords: [-18.05863, -44.53585] },
+    { coords: [-19.09581, -44.64856] },
+    { coords: [-19.08958, -44.65459] },
+    { coords: [-19.07428, -44.54388] },
+    { coords: [-19.66716, -46.69025] },
+    { coords: [-7.096310, -52.320722] },
+    { coords: [-7.377326, -54.469697] },
+    { coords: [-19.131292, -57.363185] },
+    { coords: [-7.679936, -55.398458] },
+    { coords: [-7.011659, -59.594457] },
+    { coords: [-8.945012, -66.120829] },
+    { coords: [-6.213049, -56.105238] },
+    { coords: [-9.030613, -63.894186] },
+    { coords: [-9.206203, -60.336235] },
+    { coords: [-6.917554, -60.579038] }
+    ];
 
-  </body>
+// Iterando sobre o array de marcadores e adicionando-os ao mapa
+marcadores.map(marcador => {
+    L.circleMarker(marcador.coords, {
+        radius: 8,         // Tamanho do círculo
+        color: 'lightsalmon',      // Cor da borda
+        fillColor: 'lightsalmon',  // Cor do preenchimento
+        fillOpacity: 0.4   // Opacidade do preenchimento
+    }).addTo(map)
+    .bindPopup(marcador.popup); // Adicionando o popup
+});
+
+
+    </script>
+</body>
 </html>
+<!-- -21.33976, -44.27058
+-21.33670, -44.27570
+-20.56974, -42.52778
+-20.19355, -42.60949
+-19.95185, -44.30543
+-19.95008, -44.29111
+-18.92753, -42.60812
+-17.89552, -42.33727
+-20.59929, -42.20225
+-20.11060, -42.47792
+-20.10779, -42.47149
+-19.60671, -42.63371
+-18.47654, -50.30901
+-18.46915, -50.30520
+-20.82701, -42.22564
+-20.82454, -42.22192
+-20.81179, -42.22705
+-20.64046, -43.06452
+-20.63789, -43.07016
+-20.63536, -43.03900 --
+  
