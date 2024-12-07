@@ -1,0 +1,124 @@
+/* Estilos gerais */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #343a40; /* Cor de fundo */
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Nome do site */
+.navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}
+
+/* Links dos biomas */
+.navbar-right {
+    display: flex;
+    gap: 15px;
+}
+
+.navbar-link {
+    font-size: 16px;
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.navbar-link:hover {
+    color: #00d1b2; /* Cor de destaque ao passar o mouse */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .navbar-right {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .navbar-link {
+        font-size: 14px;
+    }
+}
+
+
+/* Conteúdo principal */
+.bioma-container {
+    padding: 20px;
+}
+
+/* Header do bioma */
+.bioma-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.bioma-title {
+    font-size: 36px;
+    color: #343a40;
+    margin: 0;
+}
+
+.bioma-image {
+    width: 300px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Descrição */
+.bioma-description p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
+}
+
+/* Tabela */
+.bioma-table-container {
+    margin-top: 20px;
+    max-height: 300px; /* Defina um limite de altura */
+    overflow-y: auto;  /* Adicione rolagem se necessário */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: white;
+    padding: 10px;
+}
+
+.bioma-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.bioma-table th,
+.bioma-table td {
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+.bioma-table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+.bioma-table tr:hover {
+    background-color: #f9f9f9;
+}

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosso Bioma - Focos Futuros</title>
+    <style>
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: lightsalmon;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar h1 {
+            font-size: 20px;
+        }
+
+        .navbar .right-section {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        /* Título principal */
+        .main-title {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 28px;
+            color: #333;
+        }
+
+        /* Seção principal */
+        .main-section {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 40px 20px;
+        }
+
+        .map-section {
+            flex: 2;
+            margin-right: 20px;
+        }
+
+        .map-section img {
+            width: 100%;
+            height: auto;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .analysis-section {
+            flex: 1;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            flex-direction: column;
+        }
+
+        .analysis-section p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .main-section {
+                flex-direction: column;
+            }
+
+            .map-section {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+        }
+
+        #map { 
+            height: 100%; 
+            width: 100%;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+        
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        table th {
+            background-color: lightsalmon;
+            color: white;
+            font-weight: bold;
+        }
+        
+        table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        table tbody tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <h1>Sistema inteligente de predição de focos de incêndio</h1>
+    </nav>
+
+    <!-- Seção principal -->
+    <div class="main-section" style="height: 100%;">
+        <!-- Mapa -->   
+        <div class="map-section">
+            <div id="map"></div>
+        </div>
+
+        <!-- Texto de análise -->
+        <div class="analysis-section flex">
+            <h2>Sobre os focos de incêndio</h2>
+            <p>
+                Baseado nos dados mais recentes, identificamos regiões críticas com maior probabilidade de novas queimadas. 
+                O bioma Amazônia e o Cerrado lideram em áreas vulneráveis devido à seca prolongada e uso do solo. 
+                Este mapa reflete os pontos-chave para intervenções futuras e conservação ambiental.
+            </p>
+        </div>
+
+        <table border="1" style="border-collapse: collapse; width: 100%;">
+            <thead>
+              <tr>
+                <th>Localidade</th>
+                <th>Bioma</th>
+                <th>Latitude Média</th>
+                <th>Longitude Média</th>
+                <th>Probabilidade Média de Incêndio (%)</th>
+                <th>Ocorrências</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>São Félix do Xingu (PA)</td>
+                <td>Amazônia</td>
+                <td>-7.10</td>
+                <td>-52.32</td>
+                <td>95.3</td>
+                <td>7.350</td>
+              </tr>
+              <tr>
+                <td>Altamira (PA)</td>
+                <td>Amazônia</td>
+                <td>-7.38</td>
+                <td>-54.47</td>
+                <td>94.0</td>
+                <td>5.972</td>
+              </tr>
+              <tr>
+                <td>Corumbá (MS)</td>
+                <td>Pantanal</td>
+                <td>-19.13</td>
+                <td>-57.36</td>
+                <td>88.6</td>
+                <td>5.304</td>
+              </tr>
+              <tr>
+                <td>Novo Progresso (PA)</td>
+                <td>Amazônia</td>
+                <td>-7.68</td>
+                <td>-55.40</td>
+                <td>95.8</td>
+                <td>4.785</td>
+              </tr>
+              <tr>
+                <td>Apuí (AM)</td>
+                <td>Amazônia</td>
+                <td>-7.01</td>
+                <td>-59.59</td>
+                <td>80.5</td>
+                <td>4.663</td>
+              </tr>
+              <tr>
+                <td>Lábrea (AM)</td>
+                <td>Amazônia</td>
+                <td>-8.95</td>
+                <td>-66.12</td>
+                <td>85.3</td>
+                <td>4.275</td>
+              </tr>
+              <tr>
+                <td>Itaituba (PA)</td>
+                <td>Amazônia</td>
+                <td>-6.21</td>
+                <td>-56.11</td>
+                <td>78.1</td>
+                <td>3.318</td>
+              </tr>
+              <tr>
+                <td>Porto Velho (RO)</td>
+                <td>Amazônia</td>
+                <td>-9.03</td>
+                <td>-63.89</td>
+                <td>83.3</td>
+                <td>3.171</td>
+              </tr>
+              <tr>
+                <td>Colniza (MT)</td>
+                <td>Amazônia</td>
+                <td>-9.21</td>
+                <td>-60.34</td>
+                <td>85.4</td>
+                <td>2.683</td>
+              </tr>
+              <tr>
+                <td>Novo Aripuanã (AM)</td>
+                <td>Amazônia</td>
+                <td>-6.92</td>
+                <td>-60.58</td>
+                <td>80.9</td>
+                <td>2.582</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+
+    <script>
+        var map = L.map('map').setView([-14.235004, -51.92528], 4);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+            maxZoom: 18
+        }).addTo(map);
+
+
+        const marcadores = [
+    { coords: [-18.86505, -43.76040] },
+    { coords: [-17.12411, -46.10660] },
+    { coords: [-21.33976, -44.27058], },
+    { coords: [-21.33670, -44.27570] },
+    { coords: [-18.06937, -44.54203] },
+    { coords: [-18.05863, -44.53585] },
+    { coords: [-19.09581, -44.64856] },
+    { coords: [-19.08958, -44.65459] },
+    { coords: [-19.07428, -44.54388] },
+    { coords: [-19.66716, -46.69025] },
+    { coords: [-7.096310, -52.320722] },
+    { coords: [-7.377326, -54.469697] },
+    { coords: [-19.131292, -57.363185] },
+    { coords: [-7.679936, -55.398458] },
+    { coords: [-7.011659, -59.594457] },
+    { coords: [-8.945012, -66.120829] },
+    { coords: [-6.213049, -56.105238] },
+    { coords: [-9.030613, -63.894186] },
+    { coords: [-9.206203, -60.336235] },
+    { coords: [-6.917554, -60.579038] }
+    ];
+
+// Iterando sobre o array de marcadores e adicionando-os ao mapa
+marcadores.map(marcador => {
+    L.circleMarker(marcador.coords, {
+        radius: 8,         // Tamanho do círculo
+        color: 'lightsalmon',      // Cor da borda
+        fillColor: 'lightsalmon',  // Cor do preenchimento
+        fillOpacity: 0.4   // Opacidade do preenchimento
+    }).addTo(map)
+    .bindPopup(marcador.popup); // Adicionando o popup
+});
+
+
+    </script>
+</body>
+</html>
+<!-- -21.33976, -44.27058
+-21.33670, -44.27570
+-20.56974, -42.52778
+-20.19355, -42.60949
+-19.95185, -44.30543
+-19.95008, -44.29111
+-18.92753, -42.60812
+-17.89552, -42.33727
+-20.59929, -42.20225
+-20.11060, -42.47792
+-20.10779, -42.47149
+-19.60671, -42.63371
+-18.47654, -50.30901
+-18.46915, -50.30520
+-20.82701, -42.22564
+-20.82454, -42.22192
+-20.81179, -42.22705
+-20.64046, -43.06452
+-20.63789, -43.07016
+-20.63536, -43.03900 --
+  
